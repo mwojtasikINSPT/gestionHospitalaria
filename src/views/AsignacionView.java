@@ -54,10 +54,10 @@ public class AsignacionView {
     private void asignar() {
         Mostrar.Titulo("Asignar Médico a Paciente");
 
-        System.out.print(Mensajes.PEDIR_DATO + "ID del médico: ");
+        mostrarTexto(Mensajes.PEDIR_DATO + "ID del médico: ");
         String idMedico = scanner.nextLine();
 
-        System.out.print(Mensajes.PEDIR_DATO + "ID del paciente: ");
+        mostrarTexto(Mensajes.PEDIR_DATO + "ID del paciente: ");
         String idPaciente = scanner.nextLine();
 
         try {
@@ -84,7 +84,7 @@ public class AsignacionView {
 
     private void cancelar() {
         Mostrar.Titulo("Cancelar Asignación");
-        System.out.print(Mensajes.PEDIR_DATO + "ID del paciente de la asignación a cancelar: ");
+        mostrarTexto(Mensajes.PEDIR_DATO + "ID del paciente de la asignación a cancelar: ");
         String idPaciente = scanner.nextLine();
 
         try {

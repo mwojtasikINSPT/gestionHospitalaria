@@ -54,10 +54,10 @@ public class ReservaView {
     private void reservar() {
         Mostrar.Titulo("Reservar Cama");
 
-        System.out.print(Mensajes.PEDIR_DATO + "Código de la cama: ");
+        mostrarTexto(Mensajes.PEDIR_DATO + "Código de la cama: ");
         String codigoCama = scanner.nextLine();
 
-        System.out.print(Mensajes.PEDIR_DATO + "ID del paciente: ");
+        mostrarTexto(Mensajes.PEDIR_DATO + "ID del paciente: ");
         String idPaciente = scanner.nextLine();
 
         try {
@@ -84,7 +84,7 @@ public class ReservaView {
 
     private void cancelar() {
         Mostrar.Titulo("Cancelar Reserva");
-        System.out.print(Mensajes.PEDIR_DATO + "Código de la cama de la reserva a cancelar: ");
+        mostrarTexto(Mensajes.PEDIR_DATO + "Código de la cama de la reserva a cancelar: ");
         String codigoCama = scanner.nextLine();
 
         try {

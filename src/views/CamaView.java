@@ -146,7 +146,7 @@ public class CamaView {
 
         String pisoStr;
         do {
-            System.out.print("Nuevo Piso (número positivo): ");
+            System.out.print("Nuevo Piso: ");
             pisoStr = scanner.nextLine();
             if (!Validaciones.esNumeroPositivo(pisoStr)) {
                 mostrarTexto(Mensajes.ERROR_DATO);
@@ -156,7 +156,7 @@ public class CamaView {
 
         Estado estado = null;
         do {
-            System.out.print("Nuevo Estado (LIBRE, OCUPADA, RESERVADA): ");
+            System.out.print("Nuevo Estado (LIBRE, OCUPADA): ");
             String estadoStr = scanner.nextLine();
             try {
                 estado = Estado.valueOf(estadoStr.trim().toUpperCase());
