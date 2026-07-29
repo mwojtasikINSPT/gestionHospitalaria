@@ -26,7 +26,7 @@ public class Mostrar {
     }
 
     public static void Titulo(String titulo) {
-        System.out.println("\n---- " + titulo.toUpperCase() + " ----\n");
+        System.out.println("\n---- " + titulo.toUpperCase() + " ----");
     }
 
     public static void ErrorNoEncontrado(String tipoEntidad, String id) {

@@ -10,6 +10,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class MedicoView {
+
     private final MedicoController medicoController;
     private final Scanner scanner;
 
@@ -21,13 +22,13 @@ public class MedicoView {
     public void mostrarMenu() {
         int opcion;
         do {
-            String menuTexto = "\n--- GESTIÓN DE MÉDICOS ---\n" +
-                    "1. Agregar Médico\n" +
-                    "2. Listar Médicos\n" +
-                    "3. Buscar Médico por ID\n" +
-                    "4. Modificar Médico\n" +
-                    "5. Eliminar Médico\n" +
-                    "0. Volver al Menú Principal";
+            String menuTexto = "\n--- GESTIÓN DE MÉDICOS ---\n"
+                    + "1. Agregar Médico\n"
+                    + "2. Listar Médicos\n"
+                    + "3. Buscar Médico por ID\n"
+                    + "4. Modificar Médico\n"
+                    + "5. Eliminar Médico\n"
+                    + "0. Volver al Menú Principal";
 
             opcion = Mostrar.Menu(menuTexto, scanner);
 
@@ -70,14 +71,19 @@ public class MedicoView {
         String idGenerado = Validaciones.generarSiguienteId(idsExistentes, "M");
         mostrarTexto("ID asignado automáticamente: " + idGenerado);
 
-        String dni;
-        do {
-            mostrarTexto(Mensajes.PEDIR_DATO + "DNI (8 dígitos): ");
-            dni = scanner.nextLine();
-            if (!Validaciones.esDniValido(dni)) {
-                mostrarTexto(Mensajes.ERROR_DATO);
-            }
-        } while (!Validaciones.esDniValido(dni));
+        boolean dniRepetido;
+
+        mostrarTexto(Mensajes.PEDIR_DATO + "DNI (8 dígitos): ");
+        String dni = scanner.nextLine();
+        dniRepetido = medicoController.existeDni(dni);
+
+        if (!Validaciones.esDniValido(dni)) {
+            mostrarTexto(Mensajes.ERROR_DATO);
+            return;
+        } else if (dniRepetido) {
+            mostrarTexto(Mensajes.DATO_DUPLICADO);
+            return;
+        }
 
         String nombre;
         do {
@@ -117,7 +123,7 @@ public class MedicoView {
     private void listar() {
         Mostrar.Titulo("Lista de Médicos");
         List<MedicoDTO> medicos = medicoController.listarMedicos();
-        
+
         if (medicos.isEmpty()) {
             mostrarTexto(Mensajes.SIN_REGISTROS);
             return;
@@ -151,6 +157,7 @@ public class MedicoView {
         String id = Validaciones.normalizarTexto(scanner.nextLine());
 
         MedicoDTO existente = medicoController.buscarMedicoPorId(id);
+
         if (existente == null) {
             Mostrar.ErrorNoEncontrado("Médico", id);
             return;
@@ -158,14 +165,16 @@ public class MedicoView {
 
         mostrarTexto(Mensajes.PEDIR_NUEVOS_DATOS);
 
-        String dni;
-        do {
-            mostrarTexto("Nuevo DNI (8 dígitos): ");
-            dni = scanner.nextLine();
-            if (!Validaciones.esDniValido(dni)) {
-                mostrarTexto(Mensajes.ERROR_DATO);
-            }
-        } while (!Validaciones.esDniValido(dni));
+        boolean dniRepetido;
+        mostrarTexto("Nuevo DNI (8 dígitos): ");
+        String dni = scanner.nextLine();
+        dniRepetido = medicoController.existeDni(dni);
+        if (!Validaciones.esDniValido(dni)) {
+            mostrarTexto(Mensajes.ERROR_DATO);
+        } else if (dniRepetido) {
+            mostrarTexto(Mensajes.DATO_DUPLICADO);
+            return;
+        }
 
         String nombre;
         do {

@@ -5,6 +5,7 @@ import dtos.MedicoDTO;
 import java.util.List;
 
 public class MedicoController {
+
     private final MedicoDAO medicoDAO;
 
     public MedicoController() {
@@ -44,5 +45,15 @@ public class MedicoController {
             throw new IllegalArgumentException("No se puede eliminar. No existe un médico con el ID: " + id);
         }
         medicoDAO.eliminar(id);
+    }
+
+    // Valido unicidad DNI
+    public boolean existeDni(String dni) {
+        for (MedicoDTO m : listarMedicos()) {
+            if (m.getDni().equals(dni)) {
+                return true; // Ya existe
+            }
+        }
+        return false;
     }
 }

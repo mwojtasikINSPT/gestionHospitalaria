@@ -7,6 +7,7 @@ import utils.Mensajes;
 import java.util.List;
 
 public class PacienteController {
+
     private final PacienteDAO pacienteDAO;
     private final ReservaDAO reservaDAO;
 
@@ -51,11 +52,21 @@ public class PacienteController {
         // Verificar que el paciente no tenga una reserva activa asignada
         boolean tieneReservaActiva = reservaDAO.obtenerRegistros().stream()
                 .anyMatch(r -> r.getIdPaciente().equalsIgnoreCase(id));
-        
+
         if (tieneReservaActiva) {
             throw new IllegalArgumentException(Mensajes.ERROR_ELIMINAR_EN_USO);
         }
 
         pacienteDAO.eliminar(id);
+    }
+
+    // Valido unicidad DNI
+    public boolean existeDni(String dni) {
+        for (PacienteDTO p : listarPacientes()) {
+            if (p.getDni().equals(dni)) {
+                return true; // Ya existe
+            }
+        }
+        return false;
     }
 }
