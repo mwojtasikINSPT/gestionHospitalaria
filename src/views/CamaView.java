@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class CamaView {
+
     private final CamaController camaController;
     private final Scanner scanner;
 
@@ -22,13 +23,13 @@ public class CamaView {
     public void mostrarMenu() {
         int opcion;
         do {
-            String menuTexto = "\n--- GESTIÓN DE CAMAS ---\n" +
-                    "1. Agregar Cama\n" +
-                    "2. Listar Camas\n" +
-                    "3. Buscar Cama por Código\n" +
-                    "4. Modificar Cama\n" +
-                    "5. Eliminar Cama\n" +
-                    "0. Volver al Menú Principal";
+            String menuTexto = "\n--- GESTIÓN DE CAMAS ---\n"
+                    + "1. Agregar Cama\n"
+                    + "2. Listar Camas\n"
+                    + "3. Buscar Cama por Código\n"
+                    + "4. Modificar Cama\n"
+                    + "5. Eliminar Cama\n"
+                    + "0. Volver al Menú Principal";
 
             opcion = Mostrar.Menu(menuTexto, scanner);
 
@@ -81,17 +82,7 @@ public class CamaView {
         } while (!Validaciones.esNumeroPositivo(pisoStr));
         int piso = Integer.parseInt(pisoStr.trim());
 
-        Estado estado = null;
-        do {
-            System.out.print(Mensajes.PEDIR_DATO + "Estado (LIBRE, OCUPADA, RESERVADA): ");
-            String estadoStr = scanner.nextLine();
-            try {
-                estado = Estado.valueOf(estadoStr.trim().toUpperCase());
-            } catch (IllegalArgumentException e) {
-                mostrarTexto(Mensajes.ERROR_DATO);
-            }
-        } while (estado == null);
-
+        Estado estado = Estado.LIBRE;
         try {
             camaController.agregarCama(codigoGenerado, piso, estado);
             mostrarTexto(Mensajes.EXITO_GUARDAR);
@@ -103,7 +94,7 @@ public class CamaView {
     private void listar() {
         Mostrar.Titulo("Lista de Camas");
         List<CamaDTO> camas = camaController.listarCamas();
-        
+
         if (camas.isEmpty()) {
             mostrarTexto(Mensajes.SIN_REGISTROS);
             return;
@@ -117,7 +108,7 @@ public class CamaView {
     private void buscarPorId() {
         Mostrar.Titulo("Buscar Cama");
         System.out.print(Mensajes.PEDIR_DATO + "Código de la cama: ");
-        String codigo = scanner.nextLine();
+        String codigo = Validaciones.normalizarTexto(scanner.nextLine());
 
         try {
             CamaDTO c = camaController.buscarCamaPorId(codigo);
@@ -134,7 +125,7 @@ public class CamaView {
     private void modificar() {
         Mostrar.Titulo("Modificar Cama");
         System.out.print(Mensajes.PEDIR_DATO + "Código de la cama a modificar: ");
-        String codigo = scanner.nextLine();
+        String codigo = Validaciones.normalizarTexto(scanner.nextLine());
 
         CamaDTO existente = camaController.buscarCamaPorId(codigo);
         if (existente == null) {
@@ -157,7 +148,7 @@ public class CamaView {
         Estado estado = null;
         do {
             System.out.print("Nuevo Estado (LIBRE, OCUPADA): ");
-            String estadoStr = scanner.nextLine();
+            String estadoStr = Validaciones.normalizarTexto(scanner.nextLine());
             try {
                 estado = Estado.valueOf(estadoStr.trim().toUpperCase());
             } catch (IllegalArgumentException e) {
@@ -176,7 +167,7 @@ public class CamaView {
     private void eliminar() {
         Mostrar.Titulo("Eliminar Cama");
         System.out.print(Mensajes.PEDIR_DATO + "Código de la cama a eliminar: ");
-        String codigo = scanner.nextLine();
+        String codigo = Validaciones.normalizarTexto(scanner.nextLine());
 
         try {
             camaController.eliminarCama(codigo);

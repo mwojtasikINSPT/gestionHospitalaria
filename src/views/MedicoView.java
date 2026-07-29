@@ -82,7 +82,7 @@ public class MedicoView {
         String nombre;
         do {
             mostrarTexto(Mensajes.PEDIR_DATO + "Nombre: ");
-            nombre = scanner.nextLine();
+            nombre = Validaciones.normalizarTexto(scanner.nextLine());
             if (!Validaciones.esTextoValido(nombre)) {
                 mostrarTexto(Mensajes.ERROR_DATO);
             }
@@ -91,7 +91,7 @@ public class MedicoView {
         String apellido;
         do {
             mostrarTexto(Mensajes.PEDIR_DATO + "Apellido: ");
-            apellido = scanner.nextLine();
+            apellido = Validaciones.normalizarTexto(scanner.nextLine());
             if (!Validaciones.esTextoValido(apellido)) {
                 mostrarTexto(Mensajes.ERROR_DATO);
             }
@@ -100,7 +100,7 @@ public class MedicoView {
         String especialidad;
         do {
             mostrarTexto(Mensajes.PEDIR_DATO + "Especialidad: ");
-            especialidad = scanner.nextLine();
+            especialidad = Validaciones.normalizarTexto(scanner.nextLine());
             if (!Validaciones.esTextoValido(especialidad)) {
                 mostrarTexto(Mensajes.ERROR_DATO);
             }
@@ -131,7 +131,7 @@ public class MedicoView {
     private void buscarPorId() {
         Mostrar.Titulo("Buscar Médico");
         mostrarTexto(Mensajes.PEDIR_DATO + "ID del médico: ");
-        String id = scanner.nextLine();
+        String id = Validaciones.normalizarTexto(scanner.nextLine());
 
         try {
             MedicoDTO m = medicoController.buscarMedicoPorId(id);
@@ -148,7 +148,7 @@ public class MedicoView {
     private void modificar() {
         Mostrar.Titulo("Modificar Médico");
         mostrarTexto(Mensajes.PEDIR_DATO + "ID del médico a modificar: ");
-        String id = scanner.nextLine();
+        String id = Validaciones.normalizarTexto(scanner.nextLine());
 
         MedicoDTO existente = medicoController.buscarMedicoPorId(id);
         if (existente == null) {
@@ -170,7 +170,7 @@ public class MedicoView {
         String nombre;
         do {
             mostrarTexto("Nuevo Nombre: ");
-            nombre = scanner.nextLine();
+            nombre = Validaciones.normalizarTexto(scanner.nextLine());
             if (!Validaciones.esTextoValido(nombre)) {
                 mostrarTexto(Mensajes.ERROR_DATO);
             }
@@ -179,7 +179,7 @@ public class MedicoView {
         String apellido;
         do {
             mostrarTexto("Nuevo Apellido: ");
-            apellido = scanner.nextLine();
+            apellido = Validaciones.normalizarTexto(scanner.nextLine());
             if (!Validaciones.esTextoValido(apellido)) {
                 mostrarTexto(Mensajes.ERROR_DATO);
             }
@@ -188,7 +188,7 @@ public class MedicoView {
         String especialidad;
         do {
             mostrarTexto("Nueva Especialidad: ");
-            especialidad = scanner.nextLine();
+            especialidad = Validaciones.normalizarTexto(scanner.nextLine());
             if (!Validaciones.esTextoValido(especialidad)) {
                 mostrarTexto(Mensajes.ERROR_DATO);
             }
@@ -205,7 +205,7 @@ public class MedicoView {
     private void eliminar() {
         Mostrar.Titulo("Eliminar Médico");
         mostrarTexto(Mensajes.PEDIR_DATO + "ID del médico a eliminar: ");
-        String id = scanner.nextLine();
+        String id = Validaciones.normalizarTexto(scanner.nextLine());
 
         try {
             medicoController.eliminarMedico(id);

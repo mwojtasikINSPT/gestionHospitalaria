@@ -6,6 +6,7 @@ import utils.Mensajes;
 import utils.Mostrar;
 import java.util.List;
 import java.util.Scanner;
+import utils.Validaciones;
 
 public class ReservaView {
     private final ReservaController reservaController;
@@ -55,10 +56,10 @@ public class ReservaView {
         Mostrar.Titulo("Reservar Cama");
 
         mostrarTexto(Mensajes.PEDIR_DATO + "Código de la cama: ");
-        String codigoCama = scanner.nextLine();
+        String codigoCama = Validaciones.normalizarTexto(scanner.nextLine());
 
         mostrarTexto(Mensajes.PEDIR_DATO + "ID del paciente: ");
-        String idPaciente = scanner.nextLine();
+        String idPaciente = Validaciones.normalizarTexto(scanner.nextLine());
 
         try {
             reservaController.reservarCama(codigoCama, idPaciente);
@@ -85,7 +86,7 @@ public class ReservaView {
     private void cancelar() {
         Mostrar.Titulo("Cancelar Reserva");
         mostrarTexto(Mensajes.PEDIR_DATO + "Código de la cama de la reserva a cancelar: ");
-        String codigoCama = scanner.nextLine();
+        String codigoCama = Validaciones.normalizarTexto(scanner.nextLine());
 
         try {
             reservaController.cancelarReserva(codigoCama);

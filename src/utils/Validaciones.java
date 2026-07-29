@@ -9,11 +9,17 @@ public class Validaciones {
 // Método para generar IDs alfanuméricos (ej: P0001, E0001). Static: pertenece a la clase    
     public static String generarSiguienteId(List<String> idsExistentes, String prefijo) {
         int maxId = 0;
+        
+        // Normalizamos el prefijo recibido para que coincida en mayúsculas
+        String prefijoUpper = prefijo != null ? prefijo.toUpperCase() : "";
 
         for (String id : idsExistentes) {
-            if (id.startsWith(prefijo)) {
+            // Normalizamos también el ID existente por si había alguno guardado en minúscula
+            String idUpper = id != null ? id.toUpperCase() : "";
+            
+            if (idUpper.startsWith(prefijoUpper)) {
                 try {
-                    String numeroStr = id.substring(prefijo.length());
+                    String numeroStr = idUpper.substring(prefijoUpper.length());
                     int numero = Integer.parseInt(numeroStr);
 
                     if (numero > maxId) {
@@ -24,10 +30,9 @@ public class Validaciones {
                 }
             }
         }
-
         // "%04d" asegura que siempre haya al menos 4 dígitos, rellenando con ceros.
         // Ej: maxId 5 -> "P0006". maxId 1500 -> "P1501".
-        return prefijo + String.format("%04d", maxId + 1);
+        return prefijoUpper + String.format("%04d", maxId + 1);
     }
 
     // Valida que el DNI tenga exactamente 8 numeros

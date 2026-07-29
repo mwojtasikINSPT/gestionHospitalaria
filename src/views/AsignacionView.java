@@ -6,6 +6,7 @@ import utils.Mensajes;
 import utils.Mostrar;
 import java.util.List;
 import java.util.Scanner;
+import utils.Validaciones;
 
 public class AsignacionView {
     private final AsignacionController asignacionController;
@@ -55,10 +56,10 @@ public class AsignacionView {
         Mostrar.Titulo("Asignar Médico a Paciente");
 
         mostrarTexto(Mensajes.PEDIR_DATO + "ID del médico: ");
-        String idMedico = scanner.nextLine();
+        String idMedico = Validaciones.normalizarTexto(scanner.nextLine());
 
         mostrarTexto(Mensajes.PEDIR_DATO + "ID del paciente: ");
-        String idPaciente = scanner.nextLine();
+        String idPaciente = Validaciones.normalizarTexto(scanner.nextLine());
 
         try {
             asignacionController.asignarMedicoAPaciente(idMedico, idPaciente);
@@ -85,7 +86,7 @@ public class AsignacionView {
     private void cancelar() {
         Mostrar.Titulo("Cancelar Asignación");
         mostrarTexto(Mensajes.PEDIR_DATO + "ID del paciente de la asignación a cancelar: ");
-        String idPaciente = scanner.nextLine();
+        String idPaciente = Validaciones.normalizarTexto(scanner.nextLine());
 
         try {
             asignacionController.cancelarAsignacion(idPaciente);
