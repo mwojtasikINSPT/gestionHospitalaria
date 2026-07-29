@@ -25,7 +25,7 @@
 
 1. Clonar el repositorio:
    ```bash
-   git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
+   git clone [https://github.com/mwojtasikINSPT/gestionHospitalaria.git]
 2. Abrir el proyecto en tu entorno de desarrollo o IDE favorito (NetBeans, IntelliJ IDEA, Eclipse, etc.).
 3. Asegurarse de que el proyecto esté configurado con el JDK de Java correspondiente.
 4. Ejecutar la clase principal (Main) del sistema para iniciar la interfaz por consola.
