@@ -1,0 +1,8 @@
+M001,28111222,Cesar,Menotti,Cardiologia
+M002,29222333,Carlos,Bilardo,Pediatria
+M003,30333444,Alfio,Basile,Traumatologia
+M004,31444555,Daniel,Passarella,Neurologia
+M005,32555666,Marcelo,Bielsa,Clinica Medica
+M006,33666777,Jose,Pekerman,Pediatria
+M007,34777888,Alejandro,Sabella,Cardiologia
+M008,35888999,Gerardo,Martino,Traumatologia

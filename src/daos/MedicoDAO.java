@@ -19,7 +19,7 @@ public class MedicoDAO implements ICrud<MedicoDTO, String> {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                String[] partes = linea.split(";");
+                String[] partes = linea.split(",");
                 if (partes.length >= 5) {
                     MedicoDTO medico = new MedicoDTO(partes[0], partes[1], partes[2], partes[3], partes[4]);
                     medicos.add(medico);
@@ -34,10 +34,10 @@ public class MedicoDAO implements ICrud<MedicoDTO, String> {
     public void guardarTodos(List<MedicoDTO> medicos) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO))) {
             for (MedicoDTO medico : medicos) {
-                bw.write(medico.getId() + ";" + 
-                         medico.getDni() + ";" + 
-                         medico.getNombre() + ";" + 
-                         medico.getApellido() + ";" + 
+                bw.write(medico.getId() + "," + 
+                         medico.getDni() + "," + 
+                         medico.getNombre() + "," + 
+                         medico.getApellido() + "," + 
                          medico.getEspecialidad());
                 bw.newLine();
             }

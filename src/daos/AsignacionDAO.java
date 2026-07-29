@@ -19,7 +19,7 @@ public class AsignacionDAO implements ICrud<AsignacionDTO, String> {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                String[] partes = linea.split(";");
+                String[] partes = linea.split(",");
                 if (partes.length >= 2) {
                     AsignacionDTO asignacion = new AsignacionDTO(partes[0], partes[1]);
                     asignaciones.add(asignacion);
@@ -34,7 +34,7 @@ public class AsignacionDAO implements ICrud<AsignacionDTO, String> {
     public void guardarTodas(List<AsignacionDTO> asignaciones) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO))) {
             for (AsignacionDTO asignacion : asignaciones) {
-                bw.write(asignacion.getIdMedico() + ";" + 
+                bw.write(asignacion.getIdMedico() + "," + 
                          asignacion.getIdPaciente());
                 bw.newLine();
             }

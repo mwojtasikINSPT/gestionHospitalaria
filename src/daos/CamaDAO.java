@@ -20,7 +20,7 @@ public class CamaDAO implements ICrud<CamaDTO, String> {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                String[] partes = linea.split(";");
+                String[] partes = linea.split(",");
                 if (partes.length >= 3) {
                     CamaDTO cama = new CamaDTO(partes[0], Integer.parseInt(partes[1]), Estado.valueOf(partes[2]));
                     camas.add(cama);
@@ -35,8 +35,8 @@ public class CamaDAO implements ICrud<CamaDTO, String> {
     public void guardarTodas(List<CamaDTO> camas) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO))) {
             for (CamaDTO cama : camas) {
-                bw.write(cama.getCodigo() + ";" + 
-                         cama.getPiso() + ";" + 
+                bw.write(cama.getCodigo() + "," + 
+                         cama.getPiso() + "," + 
                          cama.getEstado());
                 bw.newLine();
             }

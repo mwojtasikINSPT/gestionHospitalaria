@@ -19,7 +19,7 @@ public class PacienteDAO implements ICrud<PacienteDTO, String> {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                String[] partes = linea.split(";");
+                String[] partes = linea.split(",");
                 if (partes.length >= 4) {
                     PacienteDTO paciente = new PacienteDTO(partes[0], partes[1], partes[2], partes[3]);
                     pacientes.add(paciente);
@@ -34,9 +34,9 @@ public class PacienteDAO implements ICrud<PacienteDTO, String> {
     public void guardarTodos(List<PacienteDTO> pacientes) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO))) {
             for (PacienteDTO paciente : pacientes) {
-                bw.write(paciente.getId() + ";" + 
-                         paciente.getDni() + ";" + 
-                         paciente.getNombre() + ";" + 
+                bw.write(paciente.getId() + "," + 
+                         paciente.getDni() + "," + 
+                         paciente.getNombre() + "," + 
                          paciente.getApellido());
                 bw.newLine();
             }

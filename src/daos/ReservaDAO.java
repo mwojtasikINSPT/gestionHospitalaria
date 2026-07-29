@@ -19,7 +19,7 @@ public class ReservaDAO implements ICrud<ReservaDTO, String> {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                String[] partes = linea.split(";");
+                String[] partes = linea.split(",");
                 if (partes.length >= 2) {
                     ReservaDTO reserva = new ReservaDTO(partes[0], partes[1]);
                     reservas.add(reserva);
@@ -34,7 +34,7 @@ public class ReservaDAO implements ICrud<ReservaDTO, String> {
     public void guardarTodas(List<ReservaDTO> reservas) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO))) {
             for (ReservaDTO reserva : reservas) {
-                bw.write(reserva.getCodigoCama() + ";" + 
+                bw.write(reserva.getCodigoCama() + "," + 
                          reserva.getIdPaciente());
                 bw.newLine();
             }
