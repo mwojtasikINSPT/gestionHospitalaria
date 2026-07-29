@@ -7,7 +7,8 @@ import java.util.List;
 
 public class MedicoDAO implements ICrud<MedicoDTO, String> {
 
-    private final String ARCHIVO = "medicos.txt";
+    private final String ARCHIVO = "medicos.txt";    
+    private final String ARCHIVO_HISTORICOS = "medicosIdHistoricos.txt";
 
     @Override
     public List<MedicoDTO> obtenerRegistros() {
@@ -46,11 +47,44 @@ public class MedicoDAO implements ICrud<MedicoDTO, String> {
         }
     }
 
+    // Método para leer todos los IDs que alguna vez existieron
+    public List<String> obtenerIdsHistoricos() {
+        List<String> ids = new ArrayList<>();
+        File file = new File(ARCHIVO_HISTORICOS);
+        if (!file.exists()) {
+            return ids;
+        }
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (!linea.trim().isEmpty()) {
+                    ids.add(linea.trim());
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error al leer el archivo de IDs históricos. ", e);
+        }
+        return ids;
+    }
+
+    // Método para agregar un ID al archivo histórico (usando append = true)
+    private void guardarIdHistorico(String id) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO_HISTORICOS, true))) {
+            bw.write(id);
+            bw.newLine();
+        } catch (IOException e) {
+            throw new RuntimeException("Error al guardar el ID histórico. ", e);
+        }
+    }
+
     @Override
     public void agregar(MedicoDTO medico) {
         List<MedicoDTO> lista = obtenerRegistros();
         lista.add(medico);
         guardarTodos(lista);
+
+        // Cada vez que se crea un medico, registramos su ID en el histórico
+        guardarIdHistorico(medico.getId());
     }
 
     @Override

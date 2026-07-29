@@ -9,6 +9,7 @@ import java.util.List;
 public class CamaDAO implements ICrud<CamaDTO, String> {
 
     private final String ARCHIVO = "camas.txt";
+    private final String ARCHIVO_HISTORICOS = "camasIdHistoricos.txt";
 
     @Override
     public List<CamaDTO> obtenerRegistros() {
@@ -35,13 +36,43 @@ public class CamaDAO implements ICrud<CamaDTO, String> {
     public void guardarTodas(List<CamaDTO> camas) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO))) {
             for (CamaDTO cama : camas) {
-                bw.write(cama.getCodigo() + "," + 
-                         cama.getPiso() + "," + 
-                         cama.getEstado());
+                bw.write(cama.getCodigo() + "," +
+                        cama.getPiso() + "," +
+                        cama.getEstado());
                 bw.newLine();
             }
         } catch (IOException e) {
             throw new RuntimeException("Error al sobreescribir archivo de camas ", e);
+        }
+    }
+
+    // Método para leer todos los IDs que alguna vez existieron
+    public List<String> obtenerIdsHistoricos() {
+        List<String> ids = new ArrayList<>();
+        File file = new File(ARCHIVO_HISTORICOS);
+        if (!file.exists()) {
+            return ids;
+        }
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (!linea.trim().isEmpty()) {
+                    ids.add(linea.trim());
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error al leer el archivo de IDs históricos. ", e);
+        }
+        return ids;
+    }
+
+    // Método para agregar un ID al archivo histórico (usando append = true)
+    private void guardarIdHistorico(String id) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO_HISTORICOS, true))) {
+            bw.write(id);
+            bw.newLine();
+        } catch (IOException e) {
+            throw new RuntimeException("Error al guardar el ID histórico. ", e);
         }
     }
 
@@ -50,6 +81,7 @@ public class CamaDAO implements ICrud<CamaDTO, String> {
         List<CamaDTO> lista = obtenerRegistros();
         lista.add(cama);
         guardarTodas(lista);
+        guardarIdHistorico(cama.getCodigo());
     }
 
     @Override

@@ -64,14 +64,15 @@ public class PacienteView {
 
     private void agregar() {
         Mostrar.Titulo("Agregar Paciente");
-        List<String> idsExistentes = pacienteController.listarPacientes().stream()
-                .map(PacienteDTO::getId)
-                .collect(Collectors.toList());
-        String idGenerado = Validaciones.generarSiguienteId(idsExistentes, "P");
+
+        // Generamos el siguiente ID sin riesgo de repetir uno borrado
+        String idGenerado = Validaciones.generarSiguienteId(
+                pacienteController.listarPacientes().stream().map(PacienteDTO::getId).collect(Collectors.toList()),
+                pacienteController.obtenerIdsHistoricos(),
+                "P");
         mostrarTexto("ID asignado automáticamente: " + idGenerado);
-
+        
         boolean dniRepetido;
-
         mostrarTexto(Mensajes.PEDIR_DATO + "DNI (8 dígitos): ");
         String dni = scanner.nextLine();
         dniRepetido = pacienteController.existeDni(dni);
@@ -132,7 +133,8 @@ public class PacienteView {
         try {
             PacienteDTO p = pacienteController.buscarPacientePorId(id);
             if (p != null) {
-                mostrarTexto("Encontrado -> ID: " + p.getId() + " | DNI: " + p.getDni() + " | " + p.getNombre() + " " + p.getApellido());
+                mostrarTexto("Encontrado -> ID: " + p.getId() + " | DNI: " + p.getDni() + " | " + p.getNombre() + " "
+                        + p.getApellido());
             } else {
                 Mostrar.ErrorNoEncontrado("Paciente", id);
             }

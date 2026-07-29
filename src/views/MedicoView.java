@@ -65,10 +65,12 @@ public class MedicoView {
     private void agregar() {
         Mostrar.Titulo("Agregar Médico");
 
-        List<String> idsExistentes = medicoController.listarMedicos().stream()
-                .map(MedicoDTO::getId)
-                .collect(Collectors.toList());
-        String idGenerado = Validaciones.generarSiguienteId(idsExistentes, "M");
+        // Genero el siguiente ID sin riesgo de repetir uno borrado
+        String idGenerado = Validaciones.generarSiguienteId(
+                medicoController.listarMedicos().stream().map(MedicoDTO::getId).collect(Collectors.toList()),
+                medicoController.obtenerIdsHistoricos(),
+                "M");
+
         mostrarTexto("ID asignado automáticamente: " + idGenerado);
 
         boolean dniRepetido;

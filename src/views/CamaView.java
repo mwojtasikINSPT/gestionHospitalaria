@@ -66,11 +66,13 @@ public class CamaView {
     private void agregar() {
         Mostrar.Titulo("Agregar Cama");
 
-        List<String> codigosExistentes = camaController.listarCamas().stream()
-                .map(CamaDTO::getCodigo)
-                .collect(Collectors.toList());
-        String codigoGenerado = Validaciones.generarSiguienteId(codigosExistentes, "C");
-        mostrarTexto("Código asignado automáticamente: " + codigoGenerado);
+        // Genero el siguiente ID sin riesgo de repetir uno borrado
+        String idGenerado = Validaciones.generarSiguienteId(
+                camaController.listarCamas().stream().map(CamaDTO::getCodigo).collect(Collectors.toList()),
+                camaController.obtenerIdsHistoricos(),
+                "C");
+
+        mostrarTexto("Código asignado automáticamente: " + idGenerado);
 
         String pisoStr;
         do {
@@ -84,7 +86,7 @@ public class CamaView {
 
         Estado estado = Estado.LIBRE;
         try {
-            camaController.agregarCama(codigoGenerado, piso, estado);
+            camaController.agregarCama(idGenerado, piso, estado);
             mostrarTexto(Mensajes.EXITO_GUARDAR);
         } catch (IllegalArgumentException e) {
             mostrarTexto(e.getMessage());

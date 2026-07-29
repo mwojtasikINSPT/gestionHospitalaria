@@ -1,6 +1,7 @@
 package utils;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,6 +34,15 @@ public class Validaciones {
         // "%04d" asegura que siempre haya al menos 4 dígitos, rellenando con ceros.
         // Ej: maxId 5 -> "P0006". maxId 1500 -> "P1501".
         return prefijoUpper + String.format("%04d", maxId + 1);
+    }
+
+    //Sobrecargo el metodo para que no repita ids que hayan existido alguna vez
+    public static String generarSiguienteId(List<String> idsActivos, List<String> idsHistoricos, String prefijo) {
+        List<String> todosLosIds = new ArrayList<>(idsActivos);
+        if (idsHistoricos != null) {
+            todosLosIds.addAll(idsHistoricos);
+        }
+        return generarSiguienteId(todosLosIds, prefijo);
     }
 
     // Valida que el DNI tenga exactamente 8 numeros

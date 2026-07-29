@@ -69,4 +69,9 @@ public class PacienteController {
         }
         return false;
     }
+
+    // Método para obtener los IDs históricos desde el DAO
+    public List<String> obtenerIdsHistoricos() {
+        return pacienteDAO.obtenerIdsHistoricos();
+    }
 }

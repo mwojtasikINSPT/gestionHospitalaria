@@ -56,4 +56,9 @@ public class MedicoController {
         }
         return false;
     }
+
+    // Método para obtener los IDs históricos desde el DAO
+    public List<String> obtenerIdsHistoricos() {
+        return medicoDAO.obtenerIdsHistoricos();
+    }
 }

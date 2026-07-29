@@ -8,6 +8,7 @@ import java.util.List;
 public class PacienteDAO implements ICrud<PacienteDTO, String> {
 
     private final String ARCHIVO = "pacientes.txt";
+    private final String ARCHIVO_HISTORICOS = "pacientesIdHistoricos.txt";
 
     @Override
     public List<PacienteDTO> obtenerRegistros() {
@@ -45,11 +46,44 @@ public class PacienteDAO implements ICrud<PacienteDTO, String> {
         }
     }
 
+    // Método para leer todos los IDs que alguna vez existieron
+    public List<String> obtenerIdsHistoricos() {
+        List<String> ids = new ArrayList<>();
+        File file = new File(ARCHIVO_HISTORICOS);
+        if (!file.exists()) {
+            return ids;
+        }
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (!linea.trim().isEmpty()) {
+                    ids.add(linea.trim());
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error al leer el archivo de IDs históricos. ", e);
+        }
+        return ids;
+    }
+
+    // Método para agregar un ID al archivo histórico (usando append = true)
+    private void guardarIdHistorico(String id) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO_HISTORICOS, true))) {
+            bw.write(id);
+            bw.newLine();
+        } catch (IOException e) {
+            throw new RuntimeException("Error al guardar el ID histórico. ", e);
+        }
+    }
+
     @Override
     public void agregar(PacienteDTO paciente) {
         List<PacienteDTO> lista = obtenerRegistros();
         lista.add(paciente);
         guardarTodos(lista);
+        
+        // Cada vez que se crea un paciente, registramos su ID en el histórico
+        guardarIdHistorico(paciente.getId());
     }
 
     @Override
@@ -79,6 +113,8 @@ public class PacienteDAO implements ICrud<PacienteDTO, String> {
 
         if (eliminado) {
             guardarTodos(lista);
+            // Al eliminar de "pacientes.txt", el ID NO se borra de "pacientesIdHistoricos.txt", 
+            // logrando así que el generador sepa que ese ID ya fue usado.
         }
     }
 }

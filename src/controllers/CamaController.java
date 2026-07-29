@@ -58,4 +58,9 @@ public class CamaController {
 
         camaDAO.eliminar(codigo);
     }
+
+    // Método para obtener los IDs históricos desde el DAO
+    public List<String> obtenerIdsHistoricos() {
+        return camaDAO.obtenerIdsHistoricos();
+    }
 }
