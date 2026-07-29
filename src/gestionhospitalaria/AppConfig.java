@@ -8,6 +8,7 @@ import views.AsignacionView;
 import utils.Mensajes;
 import utils.Mostrar;
 import java.util.Scanner;
+import views.ConsultasView;
 
 public class AppConfig {
 
@@ -20,6 +21,7 @@ public class AppConfig {
         CamaView camaView = new CamaView(scanner);
         ReservaView reservaView = new ReservaView(scanner);
         AsignacionView asignacionView = new AsignacionView(scanner);
+        ConsultasView consultasView = new ConsultasView(scanner);
 
         do {
             String menuPrincipal = """
@@ -30,6 +32,7 @@ public class AppConfig {
                                    3. Gestión de Camas
                                    4. Gestión de Reservas
                                    5. Gestión de Asignaciones (Médico - Paciente)
+                                   6. Búsquedas
                                    0. Salir""";
 
             opcion = Mostrar.Menu(menuPrincipal, scanner);
@@ -49,6 +52,9 @@ public class AppConfig {
                     break;
                 case 5:
                     asignacionView.mostrarMenu();
+                    break;
+                case 6:
+                    consultasView.mostrarMenu();
                     break;
                 case 0:
                     Mostrar.Mensaje(Mensajes.SALIENDO);
