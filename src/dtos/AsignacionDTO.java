@@ -1,7 +1,7 @@
 package dtos;
 
 public class AsignacionDTO {
-    private final String idMedico;
+    private String idMedico;
     private final String idPaciente;
 
     public AsignacionDTO(String idMedico, String idPaciente) {
@@ -11,6 +11,10 @@ public class AsignacionDTO {
 
     public String getIdMedico() {
         return idMedico;
+    }
+
+    public void setIdMedico(String idMedico) {
+        this.idMedico = idMedico;
     }
 
     public String getIdPaciente() {

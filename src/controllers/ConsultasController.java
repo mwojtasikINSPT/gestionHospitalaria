@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 public class ConsultasController {
 
     private final PacienteController pacienteController;
-    private final CamaController camaController;
+    //private final CamaController camaController;
     private final ReservaController reservaController;
     private final AsignacionController asignacionController;
     private final MedicoController medicoController;
 
     public ConsultasController() {
         this.pacienteController = new PacienteController();
-        this.camaController = new CamaController();
+        //this.camaController = new CamaController();
         this.reservaController = new ReservaController();
         this.asignacionController = new AsignacionController();
         this.medicoController = new MedicoController();

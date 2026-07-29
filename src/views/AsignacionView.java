@@ -23,7 +23,8 @@ public class AsignacionView {
             String menuTexto = "\n--- GESTIÓN DE ASIGNACIONES (MÉDICO - PACIENTE) ---\n" +
                     "1. Asignar Médico a Paciente\n" +
                     "2. Listar Asignaciones\n" +
-                    "3. Cancelar Asignación\n" +
+                    "3. Modificar Asignación\n" +
+                    "4. Cancelar Asignación\n" +
                     "0. Volver al Menú Principal";
 
             opcion = Mostrar.Menu(menuTexto, scanner);
@@ -36,6 +37,9 @@ public class AsignacionView {
                     listar();
                     break;
                 case 3:
+                    modificar();
+                    break;
+                case 4:
                     cancelar();
                     break;
                 case 0:
@@ -80,6 +84,22 @@ public class AsignacionView {
 
         for (AsignacionDTO a : asignaciones) {
             mostrarTexto("ID Médico: " + a.getIdMedico() + " | ID Paciente: " + a.getIdPaciente());
+        }
+    }
+
+    private void modificar() {
+        Mostrar.Titulo("Modificar Asignación");
+        mostrarTexto(Mensajes.PEDIR_DATO + "ID del paciente de la asignación a modificar: ");
+        String idPaciente = Validaciones.normalizarTexto(scanner.nextLine());
+
+        mostrarTexto(Mensajes.PEDIR_DATO + "Nuevo ID del médico: ");
+        String nuevoIdMedico = Validaciones.normalizarTexto(scanner.nextLine());
+
+        try {
+            asignacionController.modificarAsignacion(idPaciente, nuevoIdMedico);
+            mostrarTexto(Mensajes.EXITO_ACTUALIZAR);
+        } catch (IllegalArgumentException e) {
+            mostrarTexto(e.getMessage());
         }
     }
 

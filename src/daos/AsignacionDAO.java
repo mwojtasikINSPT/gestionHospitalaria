@@ -50,19 +50,23 @@ public class AsignacionDAO implements ICrud<AsignacionDTO, String> {
         guardarTodas(lista);
     }
 
-    @Override
-    public AsignacionDTO obtenerPorId(String idMedico) {
+    public AsignacionDTO obtenerPorPaciente(String idPaciente) {
         return obtenerRegistros().stream()
-                .filter(a -> a.getIdMedico().equalsIgnoreCase(idMedico))
+                .filter(a -> a.getIdPaciente().equalsIgnoreCase(idPaciente))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public AsignacionDTO obtenerPorId(String idPaciente) {
+        return obtenerPorPaciente(idPaciente);
     }
 
     @Override
     public void modificar(AsignacionDTO asignacionModificada) {
         List<AsignacionDTO> lista = obtenerRegistros();
         for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getIdMedico().equalsIgnoreCase(asignacionModificada.getIdMedico())) {
+            if (lista.get(i).getIdPaciente().equalsIgnoreCase(asignacionModificada.getIdPaciente())) {
                 lista.set(i, asignacionModificada);
                 guardarTodas(lista);
                 return;
@@ -71,9 +75,9 @@ public class AsignacionDAO implements ICrud<AsignacionDTO, String> {
     }
 
     @Override
-    public void eliminar(String idMedico) {
+    public void eliminar(String idPaciente) {
         List<AsignacionDTO> lista = obtenerRegistros();
-        boolean eliminada = lista.removeIf(a -> a.getIdMedico().equalsIgnoreCase(idMedico));
+        boolean eliminada = lista.removeIf(a -> a.getIdPaciente().equalsIgnoreCase(idPaciente));
 
         if (eliminada) {
             guardarTodas(lista);

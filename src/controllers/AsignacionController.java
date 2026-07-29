@@ -49,9 +49,24 @@ public class AsignacionController {
         asignacionDAO.agregar(asignacionDTO);
     }
 
+    public void modificarAsignacion(String idPaciente, String nuevoIdMedico) {
+        AsignacionDTO asignacionExistente = asignacionDAO.obtenerPorPaciente(idPaciente);
+        if (asignacionExistente == null) {
+            throw new IllegalArgumentException("El paciente no tiene un médico asignado.");
+        }
+
+        MedicoDTO medico = medicoDAO.obtenerPorId(nuevoIdMedico);
+        if (medico == null) {
+            throw new IllegalArgumentException("No existe un médico con el ID: " + nuevoIdMedico);
+        }
+
+        asignacionExistente.setIdMedico(nuevoIdMedico);
+        asignacionDAO.modificar(asignacionExistente);
+    }
+
     public void cancelarAsignacion(String idPaciente) {
         // 1. Verificar que exista una asignación activa para ese paciente antes de eliminarla
-        AsignacionDTO asignacion = asignacionDAO.obtenerPorId(idPaciente);
+        AsignacionDTO asignacion = asignacionDAO.obtenerPorPaciente(idPaciente);
         if (asignacion == null) {
             throw new IllegalArgumentException(Mensajes.ERROR_NO_ENCONTRADO);
         }
